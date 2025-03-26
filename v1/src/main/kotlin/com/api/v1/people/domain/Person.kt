@@ -18,6 +18,7 @@ class Person {
     lateinit var lastName: String
     lateinit var birthDate: LocalDate
     lateinit var ssn: String
+    lateinit var email: String
     lateinit var gender: Gender
     lateinit var phoneNumber: String
     var createdAt: LocalDateTime = LocalDateTime.now()
@@ -30,6 +31,7 @@ class Person {
         this.lastName = registrationDto.lastName
         this.birthDate = registrationDto.birthDate
         this.ssn = registrationDto.ssn
+        this.email = registrationDto.email
         this.gender = registrationDto.gender
         this.phoneNumber = registrationDto.phoneNumber
     }
