@@ -1,0 +1,54 @@
+package com.api.v1.customers.services
+
+import com.api.v1.customers.domain.Customer
+import com.api.v1.customers.domain.CustomerRepository
+import com.api.v1.customers.dtos.CustomerRegistrationDto
+import com.api.v1.customers.utils.toDto
+import com.api.v1.people.exceptions.DuplicatedSsnException
+import com.api.v1.people.services.exposed.PersonRegistrationService
+import jakarta.validation.Valid
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.withContext
+import org.springframework.stereotype.Service
+
+@Service
+class CustomerRegistrationServiceImpl: CustomerRegistrationService {
+
+    private final val customerRepository: CustomerRepository
+    private final val personRegistrationService: PersonRegistrationService
+
+    constructor(customerRepository: CustomerRepository, personRegistrationService: PersonRegistrationService) {
+        this.customerRepository = customerRepository
+        this.personRegistrationService = personRegistrationService
+    }
+
+    override suspend fun register(registrationDto: @Valid CustomerRegistrationDto) {
+        return withContext(Dispatchers.IO) {
+            onDuplicatedSsn(registrationDto.personRegistrationDto.ssn)
+            onDuplicatedEmail(registrationDto.personRegistrationDto.email)
+            val savedPerson = personRegistrationService.register(registrationDto.personRegistrationDto)
+            val newCustomer = Customer.of(savedPerson, registrationDto.address)
+            val savedCustomer = customerRepository.save(newCustomer)
+            savedCustomer.toDto()
+        }
+    }
+
+    private suspend fun onDuplicatedSsn(ssn: String) {
+        val isGivenSsnDuplicated = customerRepository
+            .findAll()
+            .firstOrNull { c -> c.person.ssn == ssn } != null
+        if (isGivenSsnDuplicated) {
+            throw DuplicatedSsnException()
+        }
+    }
+
+    private suspend fun onDuplicatedEmail(email: String) {
+        val isGivenSsnDuplicated = customerRepository
+            .findAll()
+            .firstOrNull { c -> c.person.email == email } != null
+        if (isGivenSsnDuplicated) {
+            throw DuplicatedSsnException()
+        }
+    }
+}
