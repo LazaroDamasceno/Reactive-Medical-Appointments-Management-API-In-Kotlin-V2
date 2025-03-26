@@ -1,7 +1,9 @@
 package com.api.v1.people.utils
 
 import com.api.v1.people.domain.Person
+import org.springframework.stereotype.Component
 
+@Component
 class FullNameFormatter {
 
     fun formatFullName(firstName: String,

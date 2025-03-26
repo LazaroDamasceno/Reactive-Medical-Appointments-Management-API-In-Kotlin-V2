@@ -1,5 +1,5 @@
 package com.api.v1.customers
 
-import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 
-interface CustomerRepository: MongoRepository<Customer, String>
+interface CustomerRepository: CoroutineCrudRepository<Customer, String>
