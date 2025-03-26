@@ -9,36 +9,34 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Document
-class Person {
+class Person(
+    var firstName: String,
+    var middleName: String?,
+    var lastName: String,
+    var birthDate: LocalDate,
+    var ssn: String,
+    var email: String,
+    var gender: Gender,
+    var phoneNumber: String
+) {
 
     @BsonId
     var id: String = UUID.randomUUID().toString()
-    lateinit var firstName: String
-    var middleName: String? = ""
-    lateinit var lastName: String
-    lateinit var birthDate: LocalDate
-    lateinit var ssn: String
-    lateinit var email: String
-    lateinit var gender: Gender
-    lateinit var phoneNumber: String
+
     var createdAt: LocalDateTime = LocalDateTime.now()
-
-    constructor()
-
-    private constructor(registrationDto: PersonRegistrationDto) {
-        this.firstName = registrationDto.firstName
-        this.middleName = registrationDto.middleName
-        this.lastName = registrationDto.lastName
-        this.birthDate = registrationDto.birthDate
-        this.ssn = registrationDto.ssn
-        this.email = registrationDto.email
-        this.gender = registrationDto.gender
-        this.phoneNumber = registrationDto.phoneNumber
-    }
 
     companion object {
         fun of(registrationDto: PersonRegistrationDto): Person {
-            return Person(registrationDto)
+            return Person(
+                registrationDto.firstName,
+                registrationDto.middleName,
+                registrationDto.lastName,
+                registrationDto.birthDate,
+                registrationDto.ssn,
+                registrationDto.email,
+                registrationDto.gender,
+                registrationDto.phoneNumber
+            )
         }
     }
 }

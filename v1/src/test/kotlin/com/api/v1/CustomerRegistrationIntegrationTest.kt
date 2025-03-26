@@ -19,7 +19,7 @@ import java.time.LocalDate
 class CustomerRegistrationIntegrationTest {
 
 	@Autowired
-	private lateinit var webTestClient: WebTestClient
+	lateinit var webTestClient: WebTestClient
 
 	val registrationDto = CustomerRegistrationDto(
 		PersonRegistrationDto(

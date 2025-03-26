@@ -10,21 +10,16 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Document
-class Doctor {
+class Doctor(
+    var person: Person,
+    var medicalLicenseNumber: MedicalLicenseNumber
+) {
 
     @BsonId
     var id: String = UUID.randomUUID().toString()
-    lateinit var person: Person
-    lateinit var medicalLicenseNumber: MedicalLicenseNumber
+
     var createdAt: LocalDateTime = LocalDateTime.now()
     var terminatedAt: LocalDateTime? = null
-
-    constructor()
-
-    private constructor(person: Person, medicalLicenseNumber: MedicalLicenseNumber) {
-        this.person = person
-        this.medicalLicenseNumber = medicalLicenseNumber
-    }
 
     companion object {
         fun of(person: Person, medicalLicenseNumber: MedicalLicenseNumber): Doctor {

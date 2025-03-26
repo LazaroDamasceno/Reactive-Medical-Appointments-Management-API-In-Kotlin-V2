@@ -8,20 +8,14 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 @Document
-class Customer {
+class Customer(
+    var person: Person,
+    var address: Address
+) {
 
     @BsonId
     var id: String = UUID.randomUUID().toString()
-    lateinit var person: Person
-    lateinit var address: Address
     var createdAt: LocalDateTime = LocalDateTime.now()
-
-    constructor()
-
-    private constructor(person: Person, address: Address) {
-        this.person = person
-        this.address = address
-    }
 
     companion object {
         fun of(person: Person, address: Address): Customer {
