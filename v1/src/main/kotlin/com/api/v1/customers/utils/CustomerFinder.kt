@@ -1,6 +1,6 @@
 package com.api.v1.customers.utils
 
-import com.api.v1.customers.domain.Customer
+import com.api.v1.customers.domain.exposed.Customer
 import com.api.v1.customers.domain.CustomerRepository
 import com.api.v1.customers.exceptions.NonExistentCustomerException
 import kotlinx.coroutines.Dispatchers

@@ -1,5 +1,6 @@
 package com.api.v1.doctors.domain
 
+import com.api.v1.doctors.domain.exposed.Doctor
 import org.bson.codecs.pojo.annotations.BsonId
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime

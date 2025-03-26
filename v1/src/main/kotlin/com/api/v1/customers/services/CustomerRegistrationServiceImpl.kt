@@ -1,10 +1,11 @@
 package com.api.v1.customers.services
 
-import com.api.v1.customers.domain.Customer
+import com.api.v1.customers.domain.exposed.Customer
 import com.api.v1.customers.domain.CustomerRepository
 import com.api.v1.customers.dtos.CustomerRegistrationDto
 import com.api.v1.customers.dtos.CustomerResponseDto
 import com.api.v1.customers.utils.toDto
+import com.api.v1.people.exceptions.DuplicatedEmailException
 import com.api.v1.people.exceptions.DuplicatedSsnException
 import com.api.v1.people.services.exposed.PersonRegistrationService
 import jakarta.validation.Valid
@@ -43,11 +44,11 @@ class CustomerRegistrationServiceImpl(
     }
 
     private suspend fun onDuplicatedEmail(email: String) {
-        val isGivenSsnDuplicated = customerRepository
+        val isGivenEmailDuplicated = customerRepository
             .findAll()
             .firstOrNull { c -> c.person.email == email } != null
-        if (isGivenSsnDuplicated) {
-            throw DuplicatedSsnException()
+        if (isGivenEmailDuplicated) {
+            throw DuplicatedEmailException()
         }
     }
 }
