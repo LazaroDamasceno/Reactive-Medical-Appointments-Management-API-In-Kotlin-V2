@@ -4,6 +4,7 @@ import com.api.v1.customers.dtos.CustomerRegistrationDto
 import com.api.v1.customers.dtos.CustomerResponseDto
 import com.api.v1.customers.services.CustomerRegistrationService
 import com.api.v1.customers.services.CustomerRetrievalService
+import jakarta.validation.Valid
 import kotlinx.coroutines.flow.Flow
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -16,7 +17,7 @@ class CustomerController(
 ) {
 
     @PostMapping
-    suspend fun register(registrationDto: CustomerRegistrationDto): ResponseEntity<CustomerResponseDto> {
+    suspend fun register(@RequestBody registrationDto: @Valid CustomerRegistrationDto): ResponseEntity<CustomerResponseDto> {
         return registrationService.register(registrationDto)
     }
 
