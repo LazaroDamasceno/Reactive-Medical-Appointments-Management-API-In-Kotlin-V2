@@ -1,6 +1,7 @@
 package com.api.v1.doctors.utils
 
 import com.api.v1.common.States
+import com.api.v1.common.toState
 import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.domain.DoctorRepository
 import com.api.v1.doctors.dtos.MedicalLicenseNumber
@@ -17,7 +18,7 @@ class DoctorFinder(
 
     suspend fun findByMedicalLicenseNumber(licenseNumber: String, state: String): Doctor {
         return withContext(Dispatchers.IO) {
-            val medicalLicenseNumber = MedicalLicenseNumber(licenseNumber, States.from(state))
+            val medicalLicenseNumber = MedicalLicenseNumber(licenseNumber, state.toState())
             val foundDoctor = doctorRepository
                 .findAll()
                 .firstOrNull{ d -> d.medicalLicenseNumber == medicalLicenseNumber }

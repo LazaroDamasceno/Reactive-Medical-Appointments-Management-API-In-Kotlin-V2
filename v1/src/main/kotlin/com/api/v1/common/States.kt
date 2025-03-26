@@ -9,13 +9,4 @@ enum class States {
     NE, NV, NH, NJ, NM, NY, NC, ND, OH,
     OK, OR, PA, RI, SC, SD, TN, TX, UT,
     VT, VA, WA, WV, WI, WY;
-
-    fun from(@NotBlank state: String): States {
-        val parsedState = entries
-            .firstOrNull { s -> s == States.valueOf(state) }
-        if (parsedState == null) {
-            throw NonExistentStateException()
-        }
-        return parsedState
-    }
 }
