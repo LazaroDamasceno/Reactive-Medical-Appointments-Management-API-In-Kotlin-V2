@@ -1,6 +1,7 @@
 package com.api.v1.common
 
 import jakarta.validation.constraints.NotBlank
+import jakarta.validation.constraints.Size
 
 data class Address(
     @NotBlank
@@ -10,5 +11,6 @@ data class Address(
     @NotBlank
     val street: String,
     @NotBlank
+    @Size(min = 5, max = 5)
     val zipcode: String
 )

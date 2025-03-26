@@ -8,13 +8,9 @@ import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Component
 
 @Component
-class CustomerFinder {
-
-    private final val customerRepository: CustomerRepository
-
-    constructor(customerRepository: CustomerRepository) {
-        this.customerRepository = customerRepository
-    }
+class CustomerFinder(
+    private val customerRepository: CustomerRepository
+) {
 
     suspend fun findById(id: String): Customer {
         return withContext(Dispatchers.IO) {

@@ -10,17 +10,10 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("api/v1/customers")
-class CustomerController {
-
-    private final var registrationService: CustomerRegistrationService
-    private final var retrievalService: CustomerRetrievalService
-
-    constructor(registrationService: CustomerRegistrationService,
-                retrievalService: CustomerRetrievalService
-    ) {
-        this.registrationService = registrationService
-        this.retrievalService = retrievalService
-    }
+class CustomerController(
+    private val registrationService: CustomerRegistrationService,
+    private val retrievalService: CustomerRetrievalService
+) {
 
     @PostMapping
     suspend fun register(registrationDto: CustomerRegistrationDto): ResponseEntity<CustomerResponseDto> {

@@ -12,20 +12,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
-class CustomerRegistrationServiceImpl: CustomerRegistrationService {
-
-    private final val customerRepository: CustomerRepository
-    private final val personRegistrationService: PersonRegistrationService
-
-    constructor(customerRepository: CustomerRepository, personRegistrationService: PersonRegistrationService) {
-        this.customerRepository = customerRepository
-        this.personRegistrationService = personRegistrationService
-    }
+class CustomerRegistrationServiceImpl(
+    private val customerRepository: CustomerRepository,
+    private val personRegistrationService: PersonRegistrationService
+) : CustomerRegistrationService {
 
     override suspend fun register(registrationDto: @Valid CustomerRegistrationDto): ResponseEntity<CustomerResponseDto> {
         return withContext(Dispatchers.IO) {

@@ -12,17 +12,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
-class CustomerRetrievalServiceImpl: CustomerRetrievalService {
-
-    private final var customerRepository: CustomerRepository
-    private final var customerFinder: CustomerFinder
-
-    constructor(customerRepository: CustomerRepository,
-                customerFinder: CustomerFinder
-    ) {
-        this.customerRepository = customerRepository
-        this.customerFinder = customerFinder
-    }
+class CustomerRetrievalServiceImpl(
+    private val customerRepository: CustomerRepository,
+    private val customerFinder: CustomerFinder
+) : CustomerRetrievalService {
 
     override suspend fun findAll(): ResponseEntity<Flow<CustomerResponseDto>> {
         return withContext(Dispatchers.IO) {
