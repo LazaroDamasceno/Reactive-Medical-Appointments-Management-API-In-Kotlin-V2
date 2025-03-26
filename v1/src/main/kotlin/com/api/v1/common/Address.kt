@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank
 
 data class Address(
     @NotBlank
-    val state: String,
+    val state: States,
     @NotBlank
     val city: String,
     @NotBlank
