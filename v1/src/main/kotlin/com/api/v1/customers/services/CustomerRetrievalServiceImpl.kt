@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,17 +24,19 @@ class CustomerRetrievalServiceImpl: CustomerRetrievalService {
         this.customerFinder = customerFinder
     }
 
-    override suspend fun findAll(): Flow<CustomerResponseDto> {
+    override suspend fun findAll(): ResponseEntity<Flow<CustomerResponseDto>> {
         return withContext(Dispatchers.IO) {
-            customerRepository
+            val response = customerRepository
                 .findAll()
                 .map { c -> c.toDto() }
+            ResponseEntity.ok(response)
         }
     }
 
-    override suspend fun findById(id: String): CustomerResponseDto {
+    override suspend fun findById(id: String): ResponseEntity<CustomerResponseDto> {
         return withContext(Dispatchers.IO) {
-            customerFinder.findById(id).toDto()
+            val response = customerFinder.findById(id).toDto()
+            ResponseEntity.ok(response)
         }
     }
 }

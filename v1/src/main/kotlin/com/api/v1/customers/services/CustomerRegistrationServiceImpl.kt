@@ -3,6 +3,7 @@ package com.api.v1.customers.services
 import com.api.v1.customers.domain.Customer
 import com.api.v1.customers.domain.CustomerRepository
 import com.api.v1.customers.dtos.CustomerRegistrationDto
+import com.api.v1.customers.dtos.CustomerResponseDto
 import com.api.v1.customers.utils.toDto
 import com.api.v1.people.exceptions.DuplicatedSsnException
 import com.api.v1.people.services.exposed.PersonRegistrationService
@@ -10,6 +11,9 @@ import jakarta.validation.Valid
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
+import org.springframework.http.HttpStatus
+import org.springframework.http.HttpStatusCode
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,14 +27,15 @@ class CustomerRegistrationServiceImpl: CustomerRegistrationService {
         this.personRegistrationService = personRegistrationService
     }
 
-    override suspend fun register(registrationDto: @Valid CustomerRegistrationDto) {
+    override suspend fun register(registrationDto: @Valid CustomerRegistrationDto): ResponseEntity<CustomerResponseDto> {
         return withContext(Dispatchers.IO) {
             onDuplicatedSsn(registrationDto.personRegistrationDto.ssn)
             onDuplicatedEmail(registrationDto.personRegistrationDto.email)
             val savedPerson = personRegistrationService.register(registrationDto.personRegistrationDto)
             val newCustomer = Customer.of(savedPerson, registrationDto.address)
             val savedCustomer = customerRepository.save(newCustomer)
-            savedCustomer.toDto()
+            val dto = savedCustomer.toDto()
+            ResponseEntity.status(HttpStatus.CREATED).body(dto)
         }
     }
 
