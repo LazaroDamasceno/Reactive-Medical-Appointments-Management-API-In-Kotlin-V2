@@ -4,7 +4,8 @@ import com.api.v1.people.dtos.PersonRegistrationDto
 import jakarta.validation.Valid
 
 data class DoctorRegistrationDto(
-    val medicalLicenseNumber: String,
+    @Valid
+    val medicalLicenseNumber: MedicalLicenseNumber,
     @Valid
     val personRegistrationDto: PersonRegistrationDto
 )

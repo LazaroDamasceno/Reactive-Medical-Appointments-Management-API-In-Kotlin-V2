@@ -3,6 +3,7 @@ package com.api.v1.doctors.services
 import com.api.v1.doctors.domain.DoctorRepository
 import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.dtos.DoctorRegistrationDto
+import com.api.v1.doctors.dtos.MedicalLicenseNumber
 import com.api.v1.doctors.exceptions.DuplicatedMedicalLicenseNumberException
 import com.api.v1.doctors.utils.toDto
 import com.api.v1.people.exceptions.DuplicatedEmailException
@@ -22,9 +23,10 @@ class DoctorRegistrationServiceImpl(
 
     override suspend fun register(registrationDto: @Valid DoctorRegistrationDto) {
         return withContext(Dispatchers.IO) {
-            onDuplicatedMedicalLicenseNumber(registrationDto.medicalLicenseNumber)
-            onDuplicatedSsn(registrationDto.personRegistrationDto.ssn)
-            onDuplicatedEmail(registrationDto.personRegistrationDto.email)
+            val medicalLicenseNumber = registrationDto.medicalLicenseNumber
+            val ssn = registrationDto.personRegistrationDto.ssn
+            val email = registrationDto.personRegistrationDto.email
+            validate(medicalLicenseNumber, ssn, email)
             val savedPerson = personRegistrationService.register(registrationDto.personRegistrationDto)
             val newDoctor = Doctor.of(savedPerson, registrationDto.medicalLicenseNumber)
             val savedDoctor = doctorRepository.save(newDoctor)
@@ -32,25 +34,21 @@ class DoctorRegistrationServiceImpl(
         }
     }
 
-    private suspend fun onDuplicatedMedicalLicenseNumber(medicalLicenseNumber: String) {
+    private suspend fun validate(medicalLicenseNumber: MedicalLicenseNumber, ssn: String, email: String) {
         val isGivenMedicalLicenseNumberDuplicated = doctorRepository
             .findAll()
             .firstOrNull { c -> c.medicalLicenseNumber == medicalLicenseNumber } != null
         if (isGivenMedicalLicenseNumberDuplicated) {
             throw DuplicatedMedicalLicenseNumberException()
         }
-    }
 
-    private suspend fun onDuplicatedSsn(ssn: String) {
         val isGivenSsnDuplicated = doctorRepository
             .findAll()
             .firstOrNull { c -> c.person.ssn == ssn } != null
         if (isGivenSsnDuplicated) {
             throw DuplicatedSsnException()
         }
-    }
 
-    private suspend fun onDuplicatedEmail(email: String) {
         val isGivenEmailDuplicated = doctorRepository
             .findAll()
             .firstOrNull { c -> c.person.email == email } != null
