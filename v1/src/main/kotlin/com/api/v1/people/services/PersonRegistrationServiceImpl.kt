@@ -20,18 +20,18 @@ class PersonRegistrationServiceImpl: PersonRegistrationService {
 
     override suspend fun register(registrationDto: @Valid PersonRegistrationDto): Person {
         return withContext(Dispatchers.IO) {
-            val person = personRepository
+            val foundPerson = personRepository
                 .findAll()
                 .firstOrNull { p ->
                     p.ssn == registrationDto.ssn ||
                             p.email == registrationDto.email
                 }
-            if (person == null) {
+            if (foundPerson == null) {
                 val newPerson = Person.of(registrationDto)
                 val savedPerson = personRepository.save(newPerson)
                 return@withContext savedPerson
             }
-            person
+            foundPerson
         }
     }
 }
