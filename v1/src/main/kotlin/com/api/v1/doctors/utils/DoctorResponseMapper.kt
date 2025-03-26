@@ -6,7 +6,7 @@ import com.api.v1.people.utils.formatFullName
 
 fun Doctor.toDto(): DoctorResponseDto {
     return DoctorResponseDto(
-        medicalLicenseNumber,
-        person.formatFullName()
+        person.formatFullName(),
+        medicalLicenseNumber
     )
 }
