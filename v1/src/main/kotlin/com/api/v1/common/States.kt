@@ -1,7 +1,5 @@
 package com.api.v1.common
 
-import jakarta.validation.constraints.NotBlank
-
 enum class States {
     AL, AK, AZ, AR, CA, CO, CT, DE, DC,
     FL, GA, HI, ID, IL, IN, IA, KS, KY,
