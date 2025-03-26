@@ -22,7 +22,6 @@ class Person(
 
     @BsonId
     var id: String = UUID.randomUUID().toString()
-
     var createdAt: LocalDateTime = LocalDateTime.now()
 
     companion object {
