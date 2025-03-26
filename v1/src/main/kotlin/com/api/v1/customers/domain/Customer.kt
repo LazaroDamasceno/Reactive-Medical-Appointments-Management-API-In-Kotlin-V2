@@ -1,4 +1,4 @@
-package com.api.v1.customers
+package com.api.v1.customers.domain
 
 import com.api.v1.common.Address
 import com.api.v1.people.domain.Person
