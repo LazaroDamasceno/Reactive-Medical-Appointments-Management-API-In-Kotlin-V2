@@ -3,8 +3,8 @@ package com.api.v1.doctors.services
 import com.api.v1.doctors.domain.DoctorRepository
 import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.dtos.DoctorRegistrationDto
-import com.api.v1.doctors.dtos.DoctorResponseDto
-import com.api.v1.doctors.dtos.MedicalLicenseNumber
+import com.api.v1.doctors.dtos.exposed.DoctorResponseDto
+import com.api.v1.doctors.dtos.exposed.MedicalLicenseNumber
 import com.api.v1.doctors.exceptions.DuplicatedMedicalLicenseNumberException
 import com.api.v1.doctors.utils.toDto
 import com.api.v1.people.exceptions.DuplicatedEmailException

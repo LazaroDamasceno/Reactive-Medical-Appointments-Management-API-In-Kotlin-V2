@@ -3,7 +3,7 @@ package com.api.v1.doctors.utils
 import com.api.v1.common.toState
 import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.domain.DoctorRepository
-import com.api.v1.doctors.dtos.MedicalLicenseNumber
+import com.api.v1.doctors.dtos.exposed.MedicalLicenseNumber
 import com.api.v1.doctors.exceptions.NonExistentDoctorException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull

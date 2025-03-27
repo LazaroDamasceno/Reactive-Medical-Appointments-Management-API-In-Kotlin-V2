@@ -1,4 +1,4 @@
-package com.api.v1.doctors.dtos
+package com.api.v1.doctors.dtos.exposed
 
 data class DoctorResponseDto(
     val fullName: String,

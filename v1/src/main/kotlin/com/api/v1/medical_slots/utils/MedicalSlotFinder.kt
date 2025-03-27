@@ -7,8 +7,10 @@ import com.api.v1.medical_slots.exceptions.NonExistentMedicalSlotException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.withContext
+import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
+@Component
 class MedicalSlotFinder(
     private val medicalSlotRepository: MedicalSlotRepository
 ) {

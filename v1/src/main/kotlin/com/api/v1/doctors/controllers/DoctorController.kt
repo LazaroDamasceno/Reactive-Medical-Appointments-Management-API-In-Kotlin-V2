@@ -1,7 +1,7 @@
 package com.api.v1.doctors.controllers
 
 import com.api.v1.doctors.dtos.DoctorRegistrationDto
-import com.api.v1.doctors.dtos.DoctorResponseDto
+import com.api.v1.doctors.dtos.exposed.DoctorResponseDto
 import com.api.v1.doctors.services.DoctorManagementService
 import com.api.v1.doctors.services.DoctorRegistrationService
 import com.api.v1.doctors.services.DoctorRetrievalService

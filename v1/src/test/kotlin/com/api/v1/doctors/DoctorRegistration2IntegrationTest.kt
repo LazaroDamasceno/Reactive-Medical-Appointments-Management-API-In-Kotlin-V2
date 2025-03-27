@@ -2,7 +2,7 @@ package com.api.v1.doctors
 
 import com.api.v1.common.States
 import com.api.v1.doctors.dtos.DoctorRegistrationDto
-import com.api.v1.doctors.dtos.MedicalLicenseNumber
+import com.api.v1.doctors.dtos.exposed.MedicalLicenseNumber
 import com.api.v1.people.dtos.PersonRegistrationDto
 import com.api.v1.people.enums.Gender
 import org.junit.jupiter.api.MethodOrderer

@@ -1,6 +1,6 @@
 package com.api.v1.doctors.services
 
-import com.api.v1.doctors.dtos.DoctorResponseDto
+import com.api.v1.doctors.dtos.exposed.DoctorResponseDto
 import kotlinx.coroutines.flow.Flow
 import org.springframework.http.ResponseEntity
 

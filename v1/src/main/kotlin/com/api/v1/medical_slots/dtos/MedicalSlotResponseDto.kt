@@ -1,6 +1,6 @@
 package com.api.v1.medical_slots.dtos
 
-import com.api.v1.doctors.dtos.DoctorResponseDto
+import com.api.v1.doctors.dtos.exposed.DoctorResponseDto
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotNull
 import java.time.LocalDateTime

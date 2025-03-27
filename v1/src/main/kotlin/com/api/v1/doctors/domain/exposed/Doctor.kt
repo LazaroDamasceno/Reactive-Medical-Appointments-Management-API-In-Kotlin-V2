@@ -1,6 +1,6 @@
 package com.api.v1.doctors.domain.exposed
 
-import com.api.v1.doctors.dtos.MedicalLicenseNumber
+import com.api.v1.doctors.dtos.exposed.MedicalLicenseNumber
 import com.api.v1.people.domain.exposed.Person
 import org.bson.codecs.pojo.annotations.BsonId
 import org.springframework.data.mongodb.core.mapping.Document
