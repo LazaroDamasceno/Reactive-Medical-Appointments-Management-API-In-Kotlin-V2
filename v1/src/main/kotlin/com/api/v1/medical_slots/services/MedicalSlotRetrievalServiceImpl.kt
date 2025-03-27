@@ -30,20 +30,6 @@ class MedicalSlotRetrievalServiceImpl(
         }
     }
 
-    override suspend fun findAll(
-        licenseNumber: String,
-        state: String
-    ): ResponseEntity<Flow<MedicalSlotResponseDto>> {
-        return withContext(Dispatchers.IO) {
-            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
-            val all = medicalSlotRepository
-                .findAll()
-                .filter { ms -> ms.doctor.id == foundDoctor.id }
-                .map { ms -> ms.toDto() }
-            ResponseEntity.ok(all)
-        }
-    }
-
     override suspend fun findById(medicalSlotId: String): ResponseEntity<MedicalSlotResponseDto> {
         return withContext(Dispatchers.IO) {
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)

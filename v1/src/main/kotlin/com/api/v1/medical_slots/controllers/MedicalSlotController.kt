@@ -48,13 +48,6 @@ class MedicalSlotController(
         return retrievalService.findAll()
     }
 
-    @GetMapping("{licenseNumber}/{state}")
-    suspend fun findAll(@PathVariable licenseNumber: String,
-                        @PathVariable state: String
-    ): ResponseEntity<Flow<MedicalSlotResponseDto>> {
-        return retrievalService.findAll(licenseNumber, state)
-    }
-
     @GetMapping("{medicalSlotId}")
     suspend fun findById(@PathVariable medicalSlotId: String): ResponseEntity<MedicalSlotResponseDto> {
         return retrievalService.findById(medicalSlotId)
