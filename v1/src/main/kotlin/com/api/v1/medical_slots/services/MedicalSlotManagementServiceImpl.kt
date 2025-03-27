@@ -8,6 +8,7 @@ import com.api.v1.medical_slots.exceptions.InaccessibleMedicalSlotException
 import com.api.v1.medical_slots.utils.MedicalSlotFinder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,28 +18,30 @@ class MedicalSlotManagementServiceImpl(
     private val medicalSlotRepository: MedicalSlotRepository
 ): MedicalSlotManagementService {
 
-    override suspend fun cancel(licenseNumber: String, state: String, medicalSlotId: String) {
+    override suspend fun cancel(licenseNumber: String, state: String, medicalSlotId: String): ResponseEntity<Unit> {
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
             onNonAssociatedDoctorWithMedicalSlot(foundDoctor, foundMedicalSlot)
             foundMedicalSlot.markAsCanceled()
             medicalSlotRepository.save(foundMedicalSlot)
+            ResponseEntity.noContent().build()
         }
     }
 
-    override suspend fun completed(licenseNumber: String, state: String, medicalSlotId: String) {
+    override suspend fun completed(licenseNumber: String, state: String, medicalSlotId: String): ResponseEntity<Unit> {
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
             onNonAssociatedDoctorWithMedicalSlot(foundDoctor, foundMedicalSlot)
             foundMedicalSlot.markAsCompleted()
             medicalSlotRepository.save(foundMedicalSlot)
+            ResponseEntity.noContent().build()
         }
     }
 
     private suspend fun onNonAssociatedDoctorWithMedicalSlot(doctor: Doctor, medicalSlot: MedicalSlot) {
-        if (medicalSlot.doctor.id == doctor.id) {
+        if (medicalSlot.doctor.id != doctor.id) {
             val licenseNumber = doctor.medicalLicenseNumber.licenseNumber
             val state = doctor.medicalLicenseNumber.state
             throw InaccessibleMedicalSlotException(licenseNumber, state.toString())

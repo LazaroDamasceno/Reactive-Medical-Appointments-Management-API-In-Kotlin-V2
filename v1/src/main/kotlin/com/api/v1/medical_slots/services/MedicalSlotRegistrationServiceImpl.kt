@@ -5,11 +5,14 @@ import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.utils.DoctorFinder
 import com.api.v1.medical_slots.domain.MedicalSlot
 import com.api.v1.medical_slots.domain.MedicalSlotRepository
+import com.api.v1.medical_slots.dtos.MedicalSlotResponseDto
 import com.api.v1.medical_slots.utils.MedicalSlotFinder
 import com.api.v1.medical_slots.utils.toDto
 import jakarta.validation.constraints.NotNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -20,13 +23,14 @@ class MedicalSlotRegistrationServiceImpl(
     private val doctorFinder: DoctorFinder
 ): MedicalSlotRegistrationService {
 
-    override suspend fun register(licenseNumber: String, state: String, availableAt: @NotNull LocalDateTime) {
+    override suspend fun register(licenseNumber: String, state: String, availableAt: @NotNull LocalDateTime): ResponseEntity<MedicalSlotResponseDto> {
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             onDuplicatedBookingDateTime(foundDoctor, availableAt)
             val newMedicalSlot = MedicalSlot.of(foundDoctor, availableAt)
             val savedMedicalSlot = medicalSlotRepository.save(newMedicalSlot)
-            savedMedicalSlot.toDto()
+            val dto = savedMedicalSlot.toDto()
+            ResponseEntity.status(HttpStatus.CREATED).body(dto)
         }
     }
 

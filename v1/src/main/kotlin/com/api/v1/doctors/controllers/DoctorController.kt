@@ -19,7 +19,7 @@ class DoctorController(
 ) {
 
     @PostMapping
-    suspend fun register(@RequestBody registrationDto: @Valid DoctorRegistrationDto) {
+    suspend fun register(@RequestBody registrationDto: @Valid DoctorRegistrationDto): ResponseEntity<DoctorResponseDto> {
         return registrationService.register(registrationDto)
     }
 
