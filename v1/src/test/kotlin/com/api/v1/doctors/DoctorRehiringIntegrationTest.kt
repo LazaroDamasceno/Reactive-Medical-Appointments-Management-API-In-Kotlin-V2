@@ -1,4 +1,4 @@
-package com.api.v1
+package com.api.v1.doctors
 
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.TestMethodOrder
@@ -8,15 +8,15 @@ import org.springframework.test.web.reactive.server.WebTestClient
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation::class)
-class DoctorTerminationIntegrationTest {
+class DoctorRehiringIntegrationTest {
 
     @Autowired
     lateinit var webTestClient: WebTestClient
 
-    fun testSuccessfulTermination() {
+    fun testSuccessfulRehiring() {
         webTestClient
             .patch()
-            .uri("api/v1/doctors/12345678/CA/termination")
+            .uri("api/v1/doctors/12345678/CA/rehiring")
             .exchange()
             .expectStatus()
             .is2xxSuccessful
