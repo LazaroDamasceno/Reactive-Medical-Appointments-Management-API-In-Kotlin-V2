@@ -48,7 +48,6 @@ class MedicalSlotController(
         return retrievalService.findAll()
     }
 
-
     @GetMapping("{licenseNumber}/{state}")
     suspend fun findAll(@PathVariable licenseNumber: String,
                         @PathVariable state: String
@@ -69,6 +68,5 @@ class MedicalSlotController(
     ): ResponseEntity<MedicalSlotResponseDto> {
         return retrievalService.findById(licenseNumber, state, medicalSlotId)
     }
-
 
 }
