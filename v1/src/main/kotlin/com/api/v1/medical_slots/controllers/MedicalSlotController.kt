@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
 
 @RestController
-@RequestMapping
+@RequestMapping("api/v1/medical-slots")
 class MedicalSlotController(
     private val registrationService: MedicalSlotRegistrationService,
     private val managementService: MedicalSlotManagementService,
