@@ -4,7 +4,7 @@ import com.api.v1.customers.dtos.CustomerResponseDto
 import com.api.v1.doctors.dtos.exposed.DoctorResponseDto
 import java.time.LocalDateTime
 
-data class MedicalAppointmentResponseDro(
+data class MedicalAppointmentResponseDto(
     val customer: CustomerResponseDto,
     val doctor: DoctorResponseDto,
     val bookedAt: LocalDateTime,
