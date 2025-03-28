@@ -1,5 +1,7 @@
 package com.api.v1.medical_slots.services
 
+import com.api.v1.common.PastBookingDateTimeChecker
+import com.api.v1.common.PastBookingDateTimeException
 import com.api.v1.common.UnavailableBookingDateTimeException
 import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.utils.DoctorFinder
@@ -14,6 +16,7 @@ import kotlinx.coroutines.withContext
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -27,6 +30,7 @@ class MedicalSlotRegistrationServiceImpl(
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             onDuplicatedBookingDateTime(foundDoctor, availableAt)
+            onPastBookingDateTime(availableAt.toLocalDate())
             val newMedicalSlot = MedicalSlot.of(foundDoctor, availableAt)
             val savedMedicalSlot = medicalSlotRepository.save(newMedicalSlot)
             val dto = savedMedicalSlot.toDto()
@@ -37,6 +41,12 @@ class MedicalSlotRegistrationServiceImpl(
     private suspend fun onDuplicatedBookingDateTime(doctor: Doctor, availableAt: LocalDateTime) {
         if (medicalSlotFinder.find(doctor, availableAt) != null) {
             throw UnavailableBookingDateTimeException(availableAt)
+        }
+    }
+
+    private fun onPastBookingDateTime(date: LocalDate) {
+        if (PastBookingDateTimeChecker.isBeforeToday(date)) {
+            throw PastBookingDateTimeException()
         }
     }
 }

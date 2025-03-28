@@ -1,5 +1,7 @@
 package com.api.v1.medical_appointments.services
 
+import com.api.v1.common.PastBookingDateTimeChecker
+import com.api.v1.common.PastBookingDateTimeException
 import com.api.v1.common.UnavailableBookingDateTimeException
 import com.api.v1.customers.domain.exposed.Customer
 import com.api.v1.customers.utils.CustomerFinder
@@ -14,6 +16,7 @@ import kotlinx.coroutines.withContext
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service
@@ -33,6 +36,7 @@ class MedicalAppointmentRegistrationServiceImpl(
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             val foundCustomer = customerFinder.findById(customerId)
             onGivenBookingDateTimeDuplicated(foundCustomer, bookedAt)
+            onPastBookingDateTime(bookedAt.toLocalDate())
             val newMedicalAppointment = MedicalAppointment.of(foundCustomer, foundDoctor, bookedAt)
             val savedMedicalAppointment = medicalAppointmentRepository.save(newMedicalAppointment)
             val dto = savedMedicalAppointment.toDto()
@@ -44,5 +48,11 @@ class MedicalAppointmentRegistrationServiceImpl(
        if (medicalAppointmentFinder.find(customer, bookedAt) != null) {
            throw UnavailableBookingDateTimeException(bookedAt)
        }
+    }
+
+    private fun onPastBookingDateTime(date: LocalDate) {
+        if (PastBookingDateTimeChecker.isBeforeToday(date)) {
+            throw PastBookingDateTimeException()
+        }
     }
 }
