@@ -18,8 +18,7 @@ class MedicalSlotFinder(
     suspend fun findById(id: String): MedicalSlot {
         return withContext(Dispatchers.IO) {
             val foundMedicalSlot = medicalSlotRepository
-                .findAll()
-                .firstOrNull{ ms -> ms.id == id }
+                .findById(id)
             if (foundMedicalSlot == null) {
                 throw NonExistentMedicalSlotException(id)
             }
