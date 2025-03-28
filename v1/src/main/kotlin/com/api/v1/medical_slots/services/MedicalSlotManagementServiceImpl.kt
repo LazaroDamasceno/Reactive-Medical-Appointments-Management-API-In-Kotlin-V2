@@ -4,6 +4,7 @@ import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.utils.DoctorFinder
 import com.api.v1.medical_slots.domain.MedicalSlot
 import com.api.v1.medical_slots.domain.MedicalSlotRepository
+import com.api.v1.medical_slots.exceptions.ImmutableMedicalSlotException
 import com.api.v1.medical_slots.exceptions.InaccessibleMedicalSlotException
 import com.api.v1.medical_slots.utils.MedicalSlotFinder
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +35,8 @@ class MedicalSlotManagementServiceImpl(
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
             onNonAssociatedDoctorWithMedicalSlot(foundDoctor, foundMedicalSlot)
+            onPreviouslyCanceledMedicalSlot(foundMedicalSlot)
+            onPreviouslyCompletedMedicalSlot(foundMedicalSlot)
             foundMedicalSlot.markAsCompleted()
             medicalSlotRepository.save(foundMedicalSlot)
             ResponseEntity.noContent().build()
@@ -45,6 +48,20 @@ class MedicalSlotManagementServiceImpl(
             val licenseNumber = doctor.medicalLicenseNumber.licenseNumber
             val state = doctor.medicalLicenseNumber.state
             throw InaccessibleMedicalSlotException(licenseNumber, state.toString())
+        }
+    }
+
+    private fun onPreviouslyCanceledMedicalSlot(medicalSlot: MedicalSlot) {
+        if (medicalSlot.canceledAt != null && medicalSlot.completedAt == null) {
+            val message = "Medical slot whose id is ${medicalSlot.id} is already canceled."
+            throw ImmutableMedicalSlotException(message)
+        }
+    }
+
+    private fun onPreviouslyCompletedMedicalSlot(medicalSlot: MedicalSlot) {
+        if (medicalSlot.canceledAt == null && medicalSlot.completedAt != null) {
+            val message = "Medical slot whose id is ${medicalSlot.id} is already completed."
+            throw ImmutableMedicalSlotException(message)
         }
     }
 }

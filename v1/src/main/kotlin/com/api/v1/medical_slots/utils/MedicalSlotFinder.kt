@@ -30,10 +30,11 @@ class MedicalSlotFinder(
         return withContext(Dispatchers.IO) {
             medicalSlotRepository
                 .findAll()
-                .firstOrNull { ms -> ms.doctor == doctor
-                        && ms.availableAt == availableAt
-                        && ms.canceledAt == null
-                        && ms.completedAt == null
+                .firstOrNull {
+                    ms -> ms.doctor == doctor
+                    && ms.availableAt == availableAt
+                    && ms.canceledAt == null
+                    && ms.completedAt == null
                 }
         }
     }

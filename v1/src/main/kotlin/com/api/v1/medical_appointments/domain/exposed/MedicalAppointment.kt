@@ -20,4 +20,10 @@ class MedicalAppointment(
     var canceledAt: LocalDateTime? = null
     var completedAt: LocalDateTime? = null
 
+    companion object {
+        fun of(customer: Customer, doctor: Doctor, bookedAt: LocalDateTime): MedicalAppointment {
+            return MedicalAppointment(customer, doctor, bookedAt)
+        }
+    }
+
 }
