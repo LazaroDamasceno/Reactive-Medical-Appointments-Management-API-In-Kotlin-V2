@@ -1,12 +1,10 @@
 package com.api.v1.customers.controllers
 
 import com.api.v1.customers.dtos.CustomerRegistrationDto
-import com.api.v1.customers.dtos.CustomerResponseDto
+import com.api.v1.customers.dtos.exposed.CustomerResponseDto
 import com.api.v1.customers.services.CustomerRegistrationService
 import com.api.v1.customers.services.CustomerRetrievalService
 import io.swagger.v3.oas.annotations.Operation
-import io.swagger.v3.oas.annotations.responses.ApiResponse
-import io.swagger.v3.oas.annotations.responses.ApiResponses
 import jakarta.validation.Valid
 import kotlinx.coroutines.flow.Flow
 import org.springframework.http.ResponseEntity
