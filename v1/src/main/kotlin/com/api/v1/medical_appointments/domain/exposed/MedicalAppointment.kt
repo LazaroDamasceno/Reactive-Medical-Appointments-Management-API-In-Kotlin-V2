@@ -26,4 +26,12 @@ class MedicalAppointment(
         }
     }
 
+    fun markAsCanceled() {
+        canceledAt = LocalDateTime.now()
+    }
+
+    fun markAsCompleted() {
+        completedAt = LocalDateTime.now()
+    }
+
 }

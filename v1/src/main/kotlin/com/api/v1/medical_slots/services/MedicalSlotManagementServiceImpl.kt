@@ -23,7 +23,7 @@ class MedicalSlotManagementServiceImpl(
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
-            onNonAssociatedDoctorWithMedicalSlot(foundDoctor, foundMedicalSlot)
+            validate(foundDoctor, foundMedicalSlot)
             foundMedicalSlot.markAsCanceled()
             medicalSlotRepository.save(foundMedicalSlot)
             ResponseEntity.noContent().build()
@@ -34,31 +34,26 @@ class MedicalSlotManagementServiceImpl(
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
-            onNonAssociatedDoctorWithMedicalSlot(foundDoctor, foundMedicalSlot)
-            onPreviouslyCanceledMedicalSlot(foundMedicalSlot)
-            onPreviouslyCompletedMedicalSlot(foundMedicalSlot)
+            validate(foundDoctor, foundMedicalSlot)
             foundMedicalSlot.markAsCompleted()
             medicalSlotRepository.save(foundMedicalSlot)
             ResponseEntity.noContent().build()
         }
     }
 
-    private suspend fun onNonAssociatedDoctorWithMedicalSlot(doctor: Doctor, medicalSlot: MedicalSlot) {
+    private fun validate(doctor: Doctor, medicalSlot: MedicalSlot) {
         if (medicalSlot.doctor.id != doctor.id) {
             val licenseNumber = doctor.medicalLicenseNumber.licenseNumber
             val state = doctor.medicalLicenseNumber.state
             throw InaccessibleMedicalSlotException(licenseNumber, state.toString())
         }
-    }
 
-    private fun onPreviouslyCanceledMedicalSlot(medicalSlot: MedicalSlot) {
         if (medicalSlot.canceledAt != null && medicalSlot.completedAt == null) {
             val message = "Medical slot whose id is ${medicalSlot.id} is already canceled."
             throw ImmutableMedicalSlotException(message)
         }
-    }
 
-    private fun onPreviouslyCompletedMedicalSlot(medicalSlot: MedicalSlot) {
+
         if (medicalSlot.canceledAt == null && medicalSlot.completedAt != null) {
             val message = "Medical slot whose id is ${medicalSlot.id} is already completed."
             throw ImmutableMedicalSlotException(message)
