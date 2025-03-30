@@ -1,6 +1,6 @@
 package com.api.v1.customers.services
 
-import com.api.v1.customers.dtos.CustomerResponseDto
+import com.api.v1.customers.dtos.exposed.CustomerResponseDto
 import kotlinx.coroutines.flow.Flow
 import org.springframework.http.ResponseEntity
 

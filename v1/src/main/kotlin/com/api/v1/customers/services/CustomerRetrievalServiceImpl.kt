@@ -1,7 +1,7 @@
 package com.api.v1.customers.services
 
 import com.api.v1.customers.domain.CustomerRepository
-import com.api.v1.customers.dtos.CustomerResponseDto
+import com.api.v1.customers.dtos.exposed.CustomerResponseDto
 import com.api.v1.customers.utils.CustomerFinder
 import com.api.v1.customers.utils.toDto
 import kotlinx.coroutines.Dispatchers
