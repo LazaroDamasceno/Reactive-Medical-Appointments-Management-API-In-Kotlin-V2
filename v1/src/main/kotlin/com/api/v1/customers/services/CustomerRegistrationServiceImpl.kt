@@ -24,8 +24,7 @@ class CustomerRegistrationServiceImpl(
 
     override suspend fun register(registrationDto: @Valid CustomerRegistrationDto): ResponseEntity<CustomerResponseDto> {
         return withContext(Dispatchers.IO) {
-            onDuplicatedSsn(registrationDto.personRegistrationDto.ssn)
-            onDuplicatedEmail(registrationDto.personRegistrationDto.email)
+            validate(registrationDto.personRegistrationDto.ssn, registrationDto.personRegistrationDto.email)
             val savedPerson = personRegistrationService.register(registrationDto.personRegistrationDto)
             val newCustomer = Customer.of(savedPerson, registrationDto.address)
             val savedCustomer = customerRepository.save(newCustomer)
@@ -34,16 +33,14 @@ class CustomerRegistrationServiceImpl(
         }
     }
 
-    private suspend fun onDuplicatedSsn(ssn: String) {
+    private suspend fun validate(ssn: String, email: String) {
         val isGivenSsnDuplicated = customerRepository
             .findAll()
             .firstOrNull { c -> c.person.ssn == ssn } != null
         if (isGivenSsnDuplicated) {
             throw DuplicatedSsnException()
         }
-    }
 
-    private suspend fun onDuplicatedEmail(email: String) {
         val isGivenEmailDuplicated = customerRepository
             .findAll()
             .firstOrNull { c -> c.person.email == email } != null

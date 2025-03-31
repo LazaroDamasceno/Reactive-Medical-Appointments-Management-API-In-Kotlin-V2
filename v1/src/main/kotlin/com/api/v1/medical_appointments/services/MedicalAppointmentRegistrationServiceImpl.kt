@@ -35,8 +35,7 @@ class MedicalAppointmentRegistrationServiceImpl(
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             val foundCustomer = customerFinder.findById(customerId)
-            onGivenBookingDateTimeDuplicated(foundCustomer, bookedAt)
-            onPastBookingDateTime(bookedAt.toLocalDate())
+            validate(foundCustomer, bookedAt)
             val newMedicalAppointment = MedicalAppointment.of(foundCustomer, foundDoctor, bookedAt)
             val savedMedicalAppointment = medicalAppointmentRepository.save(newMedicalAppointment)
             val dto = savedMedicalAppointment.toDto()
@@ -44,14 +43,12 @@ class MedicalAppointmentRegistrationServiceImpl(
         }
     }
 
-    private suspend fun onGivenBookingDateTimeDuplicated(customer: Customer, bookedAt: LocalDateTime) {
-       if (medicalAppointmentFinder.find(customer, bookedAt) != null) {
-           throw UnavailableBookingDateTimeException(bookedAt)
-       }
-    }
+    private suspend fun validate(customer: Customer, bookedAt: LocalDateTime) {
+        if (medicalAppointmentFinder.find(customer, bookedAt) != null) {
+            throw UnavailableBookingDateTimeException(bookedAt)
+        }
 
-    private fun onPastBookingDateTime(date: LocalDate) {
-        if (PastBookingDateTimeChecker.isBeforeToday(date)) {
+        if (PastBookingDateTimeChecker.isBeforeToday(bookedAt.toLocalDate())) {
             throw PastBookingDateTimeException()
         }
     }
