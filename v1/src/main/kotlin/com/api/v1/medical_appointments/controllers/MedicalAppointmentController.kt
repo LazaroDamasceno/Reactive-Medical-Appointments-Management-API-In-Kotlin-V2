@@ -31,7 +31,7 @@ class MedicalAppointmentController(
     }
 
     @Operation(description = "Cancel a medical appointment")
-    @PatchMapping("{customerId}/{medicalAppointmentId}/cancellation")
+    @PostMapping("{customerId}/{medicalAppointmentId}/cancellation")
     suspend fun cancel(@PathVariable customerId: String,
                        @PathVariable medicalAppointmentId: String
     ): ResponseEntity<Unit> {
