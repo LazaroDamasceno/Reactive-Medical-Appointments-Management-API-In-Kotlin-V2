@@ -9,7 +9,6 @@ import com.api.v1.medical_slots.domain.MedicalSlot
 import com.api.v1.medical_slots.domain.MedicalSlotRepository
 import com.api.v1.medical_slots.dtos.MedicalSlotResponseDto
 import com.api.v1.medical_slots.utils.MedicalSlotFinder
-import com.api.v1.medical_slots.utils.toDto
 import jakarta.validation.constraints.NotNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

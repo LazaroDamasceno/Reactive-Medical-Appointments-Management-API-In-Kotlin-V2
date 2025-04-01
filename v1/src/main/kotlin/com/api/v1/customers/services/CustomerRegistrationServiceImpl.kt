@@ -4,7 +4,6 @@ import com.api.v1.customers.domain.exposed.Customer
 import com.api.v1.customers.domain.CustomerRepository
 import com.api.v1.customers.dtos.CustomerRegistrationDto
 import com.api.v1.customers.dtos.exposed.CustomerResponseDto
-import com.api.v1.customers.utils.toDto
 import com.api.v1.people.exceptions.DuplicatedEmailException
 import com.api.v1.people.exceptions.DuplicatedSsnException
 import com.api.v1.people.services.exposed.PersonRegistrationService

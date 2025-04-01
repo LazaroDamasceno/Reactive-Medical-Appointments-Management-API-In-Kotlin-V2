@@ -1,7 +1,9 @@
 package com.api.v1.doctors.domain.exposed
 
+import com.api.v1.doctors.dtos.exposed.DoctorResponseDto
 import com.api.v1.doctors.dtos.exposed.MedicalLicenseNumber
 import com.api.v1.people.domain.exposed.Person
+import com.api.v1.people.utils.formatFullName
 import org.bson.codecs.pojo.annotations.BsonId
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
@@ -31,5 +33,12 @@ class Doctor(
 
     fun markAsRehired() {
         terminatedAt = null
+    }
+
+    fun toDto(): DoctorResponseDto {
+        return DoctorResponseDto(
+            person.formatFullName(),
+            medicalLicenseNumber
+        )
     }
 }

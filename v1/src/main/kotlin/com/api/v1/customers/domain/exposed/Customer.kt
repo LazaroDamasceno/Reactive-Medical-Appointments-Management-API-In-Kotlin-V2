@@ -1,7 +1,9 @@
 package com.api.v1.customers.domain.exposed
 
 import com.api.v1.common.Address
+import com.api.v1.customers.dtos.exposed.CustomerResponseDto
 import com.api.v1.people.domain.exposed.Person
+import com.api.v1.people.utils.formatFullName
 import org.bson.codecs.pojo.annotations.BsonId
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
@@ -21,5 +23,12 @@ class Customer(
         fun of(person: Person, address: Address): Customer {
             return Customer(person, address)
         }
+    }
+
+    fun toDto(): CustomerResponseDto {
+        return CustomerResponseDto(
+            id,
+            person.formatFullName()
+        )
     }
 }

@@ -5,10 +5,8 @@ import com.api.v1.medical_slots.domain.MedicalSlotRepository
 import com.api.v1.medical_slots.dtos.MedicalSlotResponseDto
 import com.api.v1.medical_slots.exceptions.InaccessibleMedicalSlotException
 import com.api.v1.medical_slots.utils.MedicalSlotFinder
-import com.api.v1.medical_slots.utils.toDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import org.springframework.http.ResponseEntity

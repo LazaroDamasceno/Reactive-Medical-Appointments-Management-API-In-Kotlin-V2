@@ -10,13 +10,11 @@ import com.api.v1.medical_appointments.domain.MedicalAppointmentRepository
 import com.api.v1.medical_appointments.domain.exposed.MedicalAppointment
 import com.api.v1.medical_appointments.dtos.MedicalAppointmentResponseDto
 import com.api.v1.medical_appointments.utils.MedicalAppointmentFinder
-import com.api.v1.medical_appointments.utils.toDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
-import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Service

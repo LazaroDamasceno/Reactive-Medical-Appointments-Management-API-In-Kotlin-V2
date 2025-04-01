@@ -6,7 +6,6 @@ import com.api.v1.doctors.dtos.DoctorRegistrationDto
 import com.api.v1.doctors.dtos.exposed.DoctorResponseDto
 import com.api.v1.doctors.dtos.exposed.MedicalLicenseNumber
 import com.api.v1.doctors.exceptions.DuplicatedMedicalLicenseNumberException
-import com.api.v1.doctors.utils.toDto
 import com.api.v1.people.exceptions.DuplicatedEmailException
 import com.api.v1.people.exceptions.DuplicatedSsnException
 import com.api.v1.people.services.exposed.PersonRegistrationService

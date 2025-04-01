@@ -1,6 +1,7 @@
 package com.api.v1.medical_slots.domain
 
 import com.api.v1.doctors.domain.exposed.Doctor
+import com.api.v1.medical_slots.dtos.MedicalSlotResponseDto
 import org.bson.codecs.pojo.annotations.BsonId
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
@@ -30,5 +31,14 @@ class MedicalSlot(
 
     fun markAsCompleted() {
         completedAt = LocalDateTime.now()
+    }
+
+    fun toDto(): MedicalSlotResponseDto {
+        return MedicalSlotResponseDto(
+            doctor.toDto(),
+            availableAt,
+            canceledAt,
+            completedAt
+        )
     }
 }

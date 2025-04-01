@@ -3,7 +3,6 @@ package com.api.v1.doctors.services
 import com.api.v1.doctors.domain.DoctorRepository
 import com.api.v1.doctors.dtos.exposed.DoctorResponseDto
 import com.api.v1.doctors.utils.DoctorFinder
-import com.api.v1.doctors.utils.toDto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
