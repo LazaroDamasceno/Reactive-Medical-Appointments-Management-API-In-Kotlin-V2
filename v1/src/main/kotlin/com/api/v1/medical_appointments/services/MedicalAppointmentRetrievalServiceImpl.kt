@@ -2,7 +2,6 @@ package com.api.v1.medical_appointments.services
 
 import com.api.v1.customers.utils.CustomerFinder
 import com.api.v1.medical_appointments.domain.MedicalAppointmentRepository
-import com.api.v1.medical_appointments.domain.exposed.MedicalAppointment
 import com.api.v1.medical_appointments.dtos.MedicalAppointmentResponseDto
 import com.api.v1.medical_appointments.exceptions.InaccessibleMedicalAppointmentException
 import com.api.v1.medical_appointments.utils.MedicalAppointmentFinder
