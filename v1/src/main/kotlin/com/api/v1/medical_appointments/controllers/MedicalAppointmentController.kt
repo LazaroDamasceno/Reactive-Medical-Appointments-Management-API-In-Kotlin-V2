@@ -19,7 +19,7 @@ class MedicalAppointmentController(
     private val retrievalService: MedicalAppointmentRetrievalService
 ) {
 
-    @Operation(description = "Books a new medical appointment")
+    @Operation(description = "Book a new medical appointment")
     @PostMapping("{licenseNumber}/{state}/{customerId}/{bookedAt}")
     suspend fun register(
         @PathVariable licenseNumber: String,
