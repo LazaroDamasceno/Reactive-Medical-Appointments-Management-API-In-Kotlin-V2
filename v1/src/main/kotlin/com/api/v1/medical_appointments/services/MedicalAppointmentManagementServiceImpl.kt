@@ -7,6 +7,8 @@ import com.api.v1.medical_appointments.domain.exposed.MedicalAppointment
 import com.api.v1.medical_appointments.exceptions.ImmutableMedicalAppointmentException
 import com.api.v1.medical_appointments.exceptions.InaccessibleMedicalAppointmentException
 import com.api.v1.medical_appointments.utils.MedicalAppointmentFinder
+import com.api.v1.medical_slots.services.exposed.MedicalSlotUpdatingService
+import com.api.v1.medical_slots.utils.MedicalSlotFinder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.http.ResponseEntity
@@ -16,7 +18,9 @@ import org.springframework.stereotype.Service
 class MedicalAppointmentManagementServiceImpl(
     private val medicalAppointmentRepository: MedicalAppointmentRepository,
     private val medicalAppointmentFinder: MedicalAppointmentFinder,
-    private val customerFinder: CustomerFinder
+    private val customerFinder: CustomerFinder,
+    private val medicalSlotFinder: MedicalSlotFinder,
+    private val medicalSlotUpdatingService: MedicalSlotUpdatingService
 ): MedicalAppointmentManagementService {
 
     override suspend fun cancel(customerId: String, medicalAppointmentId: String): ResponseEntity<Unit> {
@@ -26,17 +30,9 @@ class MedicalAppointmentManagementServiceImpl(
             validate(foundMedicalAppointment, foundCustomer)
             foundMedicalAppointment.markAsCanceled()
             medicalAppointmentRepository.save(foundMedicalAppointment)
-            ResponseEntity.noContent().build()
-        }
-    }
-
-    override suspend fun complete(customerId: String, medicalAppointmentId: String): ResponseEntity<Unit> {
-        return withContext(Dispatchers.IO) {
-            val foundCustomer = customerFinder.findById(customerId)
-            val foundMedicalAppointment = medicalAppointmentFinder.findById(medicalAppointmentId)
-            validate(foundMedicalAppointment, foundCustomer)
-            foundMedicalAppointment.markAsCompleted()
-            medicalAppointmentRepository.save(foundMedicalAppointment)
+            val medicalSlot = medicalSlotFinder.find(foundMedicalAppointment.doctor, foundMedicalAppointment.bookedAt)
+            medicalSlot!!.medicalAppointment = null
+            medicalSlotUpdatingService.set(medicalSlot)
             ResponseEntity.noContent().build()
         }
     }

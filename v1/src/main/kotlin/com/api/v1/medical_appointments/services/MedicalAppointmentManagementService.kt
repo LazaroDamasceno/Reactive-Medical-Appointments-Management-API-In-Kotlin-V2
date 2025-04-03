@@ -4,5 +4,4 @@ import org.springframework.http.ResponseEntity
 
 interface MedicalAppointmentManagementService {
     suspend fun cancel(customerId: String, medicalAppointmentId: String): ResponseEntity<Unit>
-    suspend fun complete(customerId: String, medicalAppointmentId: String): ResponseEntity<Unit>
 }
