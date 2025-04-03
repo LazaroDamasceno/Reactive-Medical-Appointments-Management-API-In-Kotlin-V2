@@ -38,14 +38,6 @@ class MedicalAppointmentController(
         return managementService.cancel(customerId, medicalAppointmentId)
     }
 
-
-    @Operation(description = "Complete a medical appointment")
-    suspend fun complete(@PathVariable customerId: String,
-                         @PathVariable medicalAppointmentId: String
-    ): ResponseEntity<Unit> {
-        return managementService.complete(customerId, medicalAppointmentId)
-    }
-
     @Operation(description = "Retrieval all medical appointments")
     @GetMapping
     suspend fun findAll(): ResponseEntity<Flow<MedicalAppointmentResponseDto>> {
