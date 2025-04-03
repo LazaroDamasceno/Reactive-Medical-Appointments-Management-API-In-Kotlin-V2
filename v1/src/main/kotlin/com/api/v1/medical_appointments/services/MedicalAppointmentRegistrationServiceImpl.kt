@@ -5,10 +5,12 @@ import com.api.v1.common.PastBookingDateTimeException
 import com.api.v1.common.UnavailableBookingDateTimeException
 import com.api.v1.customers.domain.exposed.Customer
 import com.api.v1.customers.utils.CustomerFinder
+import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.utils.DoctorFinder
 import com.api.v1.medical_appointments.domain.MedicalAppointmentRepository
 import com.api.v1.medical_appointments.domain.exposed.MedicalAppointment
 import com.api.v1.medical_appointments.dtos.MedicalAppointmentResponseDto
+import com.api.v1.medical_appointments.exceptions.InaccessibleMedicalAppointmentException
 import com.api.v1.medical_appointments.utils.MedicalAppointmentFinder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -33,7 +35,7 @@ class MedicalAppointmentRegistrationServiceImpl(
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
             val foundCustomer = customerFinder.findById(customerId)
-            validate(foundCustomer, bookedAt)
+            validate(foundCustomer, foundDoctor, bookedAt)
             val newMedicalAppointment = MedicalAppointment.of(foundCustomer, foundDoctor, bookedAt)
             val savedMedicalAppointment = medicalAppointmentRepository.save(newMedicalAppointment)
             val dto = savedMedicalAppointment.toDto()
@@ -41,13 +43,18 @@ class MedicalAppointmentRegistrationServiceImpl(
         }
     }
 
-    private suspend fun validate(customer: Customer, bookedAt: LocalDateTime) {
+    private suspend fun validate(customer: Customer, doctor: Doctor, bookedAt: LocalDateTime) {
         if (medicalAppointmentFinder.find(customer, bookedAt) != null) {
             throw UnavailableBookingDateTimeException(bookedAt)
         }
 
         if (PastBookingDateTimeChecker.isBeforeToday(bookedAt.toLocalDate())) {
             throw PastBookingDateTimeException()
+        }
+
+        if (doctor.person.id == customer.id) {
+            val message = "Doctor is the med"
+            throw InaccessibleMedicalAppointmentException()
         }
     }
 }
