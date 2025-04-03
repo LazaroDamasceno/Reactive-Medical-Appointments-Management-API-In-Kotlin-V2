@@ -21,7 +21,7 @@ class DoctorRetrievalServiceImpl(
         state: String
     ): ResponseEntity<DoctorResponseDto> {
         return withContext(Dispatchers.IO) {
-            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
+            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state.uppercase())
             val dto = foundDoctor.toDto()
             ResponseEntity.ok(dto)
         }

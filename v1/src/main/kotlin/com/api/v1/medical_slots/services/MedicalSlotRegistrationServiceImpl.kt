@@ -29,7 +29,7 @@ class MedicalSlotRegistrationServiceImpl(
                                   availableAt: @NotNull LocalDateTime
     ): ResponseEntity<MedicalSlotResponseDto> {
         return withContext(Dispatchers.IO) {
-            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
+            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state.uppercase())
             validate(foundDoctor, availableAt)
             val newMedicalSlot = MedicalSlot.of(foundDoctor, availableAt)
             val savedMedicalSlot = medicalSlotRepository.save(newMedicalSlot)

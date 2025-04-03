@@ -20,7 +20,7 @@ class DoctorManagementServiceImpl(
 
     override suspend fun terminate(licenseNumber: String, state: String): ResponseEntity<Unit> {
         return withContext(Dispatchers.IO) {
-            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
+            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state.uppercase())
             onTerminatedDoctor(foundDoctor)
             val auditTrail = DoctorAuditTrail.of(foundDoctor)
             doctorAuditTrailRepository.save(auditTrail)
@@ -32,7 +32,7 @@ class DoctorManagementServiceImpl(
 
     override suspend fun rehire(licenseNumber: String, state: String): ResponseEntity<Unit> {
         return withContext(Dispatchers.IO) {
-            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
+            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state.uppercase())
             onTerminatedDoctor(foundDoctor)
             val auditTrail = DoctorAuditTrail.of(foundDoctor)
             doctorAuditTrailRepository.save(auditTrail)

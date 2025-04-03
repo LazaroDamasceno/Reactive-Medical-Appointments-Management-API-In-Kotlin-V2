@@ -33,7 +33,7 @@ class MedicalAppointmentRegistrationServiceImpl(
                                   bookedAt: LocalDateTime
     ): ResponseEntity<MedicalAppointmentResponseDto> {
         return withContext(Dispatchers.IO) {
-            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
+            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state.uppercase())
             val foundCustomer = customerFinder.findById(customerId)
             validate(foundCustomer, foundDoctor, bookedAt)
             val newMedicalAppointment = MedicalAppointment.of(foundCustomer, foundDoctor, bookedAt)

@@ -23,7 +23,7 @@ class MedicalSlotManagementServiceImpl(
 
     override suspend fun cancel(licenseNumber: String, state: String, medicalSlotId: String): ResponseEntity<Unit> {
         return withContext(Dispatchers.IO) {
-            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
+            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state.uppercase())
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
             validate(foundDoctor, foundMedicalSlot)
             foundMedicalSlot.markAsCanceled()
@@ -38,7 +38,7 @@ class MedicalSlotManagementServiceImpl(
 
     override suspend fun completed(licenseNumber: String, state: String, medicalSlotId: String): ResponseEntity<Unit> {
         return withContext(Dispatchers.IO) {
-            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
+            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state.uppercase())
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
             validate(foundDoctor, foundMedicalSlot)
             foundMedicalSlot.markAsCompleted()

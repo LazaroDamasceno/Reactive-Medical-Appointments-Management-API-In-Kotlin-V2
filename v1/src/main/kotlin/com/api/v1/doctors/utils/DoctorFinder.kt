@@ -17,7 +17,7 @@ class DoctorFinder(
 
     suspend fun findByMedicalLicenseNumber(licenseNumber: String, state: String): Doctor {
         return withContext(Dispatchers.IO) {
-            val medicalLicenseNumber = MedicalLicenseNumber(licenseNumber, States.valueOf(state))
+            val medicalLicenseNumber = MedicalLicenseNumber(licenseNumber, States.valueOf(state.uppercase()))
             val foundDoctor = doctorRepository
                 .findAll()
                 .firstOrNull{ d -> d.medicalLicenseNumber == medicalLicenseNumber }

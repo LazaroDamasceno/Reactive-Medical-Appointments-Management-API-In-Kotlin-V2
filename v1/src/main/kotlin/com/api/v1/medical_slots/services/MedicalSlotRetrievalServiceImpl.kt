@@ -43,9 +43,9 @@ class MedicalSlotRetrievalServiceImpl(
     ): ResponseEntity<MedicalSlotResponseDto> {
         return withContext(Dispatchers.IO) {
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
-            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state)
+            val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state.uppercase())
             if (foundMedicalSlot.doctor.id != foundDoctor.id) {
-                throw InaccessibleMedicalSlotException(licenseNumber, state)
+                throw InaccessibleMedicalSlotException(licenseNumber, state.uppercase())
             }
             val dto = foundMedicalSlot.toDto()
             ResponseEntity.ok(dto)
