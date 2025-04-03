@@ -53,7 +53,6 @@ class MedicalAppointmentRegistrationServiceImpl(
         }
 
         if (doctor.person.id == customer.id) {
-            val message = "Doctor is the med"
             throw InaccessibleMedicalAppointmentException()
         }
     }

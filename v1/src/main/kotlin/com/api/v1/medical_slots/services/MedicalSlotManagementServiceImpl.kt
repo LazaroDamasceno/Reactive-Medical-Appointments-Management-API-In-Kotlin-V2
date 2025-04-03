@@ -2,6 +2,7 @@ package com.api.v1.medical_slots.services
 
 import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.utils.DoctorFinder
+import com.api.v1.medical_appointments.services.exposed.MedicalAppointmentUpdatingService
 import com.api.v1.medical_slots.domain.MedicalSlot
 import com.api.v1.medical_slots.domain.MedicalSlotRepository
 import com.api.v1.medical_slots.exceptions.ImmutableMedicalSlotException
@@ -16,7 +17,8 @@ import org.springframework.stereotype.Service
 class MedicalSlotManagementServiceImpl(
     private val doctorFinder: DoctorFinder,
     private val medicalSlotFinder: MedicalSlotFinder,
-    private val medicalSlotRepository: MedicalSlotRepository
+    private val medicalSlotRepository: MedicalSlotRepository,
+    private val medicalAppointmentUpdatingService: MedicalAppointmentUpdatingService
 ): MedicalSlotManagementService {
 
     override suspend fun cancel(licenseNumber: String, state: String, medicalSlotId: String): ResponseEntity<Unit> {
@@ -25,6 +27,10 @@ class MedicalSlotManagementServiceImpl(
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
             validate(foundDoctor, foundMedicalSlot)
             foundMedicalSlot.markAsCanceled()
+            val medicalAppointment = foundMedicalSlot.medicalAppointment
+            medicalAppointment!!.markAsCanceled()
+            val canceledMedicalAppointment = medicalAppointmentUpdatingService.set(medicalAppointment)
+            foundMedicalSlot.medicalAppointment = canceledMedicalAppointment
             medicalSlotRepository.save(foundMedicalSlot)
             ResponseEntity.noContent().build()
         }
@@ -36,6 +42,10 @@ class MedicalSlotManagementServiceImpl(
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
             validate(foundDoctor, foundMedicalSlot)
             foundMedicalSlot.markAsCompleted()
+            val medicalAppointment = foundMedicalSlot.medicalAppointment
+            medicalAppointment!!.markAsCompleted()
+            val completedMedicalAppointment = medicalAppointmentUpdatingService.set(medicalAppointment)
+            foundMedicalSlot.medicalAppointment = completedMedicalAppointment
             medicalSlotRepository.save(foundMedicalSlot)
             ResponseEntity.noContent().build()
         }
