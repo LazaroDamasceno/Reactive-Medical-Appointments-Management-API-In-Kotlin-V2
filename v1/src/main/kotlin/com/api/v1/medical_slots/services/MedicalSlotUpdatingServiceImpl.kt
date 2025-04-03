@@ -1,6 +1,6 @@
 package com.api.v1.medical_slots.services
 
-import com.api.v1.medical_slots.domain.MedicalSlot
+import com.api.v1.medical_slots.domain.exposed.MedicalSlot
 import com.api.v1.medical_slots.domain.MedicalSlotRepository
 import com.api.v1.medical_slots.services.exposed.MedicalSlotUpdatingService
 import kotlinx.coroutines.Dispatchers

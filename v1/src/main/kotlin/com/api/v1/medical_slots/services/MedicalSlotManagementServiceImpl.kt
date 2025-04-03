@@ -3,7 +3,7 @@ package com.api.v1.medical_slots.services
 import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.utils.DoctorFinder
 import com.api.v1.medical_appointments.services.exposed.MedicalAppointmentUpdatingService
-import com.api.v1.medical_slots.domain.MedicalSlot
+import com.api.v1.medical_slots.domain.exposed.MedicalSlot
 import com.api.v1.medical_slots.domain.MedicalSlotRepository
 import com.api.v1.medical_slots.exceptions.ImmutableMedicalSlotException
 import com.api.v1.medical_slots.exceptions.InaccessibleMedicalSlotException

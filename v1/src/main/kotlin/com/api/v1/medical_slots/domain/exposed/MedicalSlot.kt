@@ -1,4 +1,4 @@
-package com.api.v1.medical_slots.domain
+package com.api.v1.medical_slots.domain.exposed
 
 import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.medical_appointments.domain.exposed.MedicalAppointment
