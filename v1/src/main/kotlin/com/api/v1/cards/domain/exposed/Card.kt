@@ -1,4 +1,4 @@
-package com.api.v1.cards.domain
+package com.api.v1.cards.domain.exposed
 
 import com.api.v1.cards.dtos.CardResponseDto
 import com.api.v1.cards.enums.CardType

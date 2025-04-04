@@ -1,6 +1,6 @@
 package com.api.v1.payments.domain
 
-import com.api.v1.cards.domain.Card
+import com.api.v1.cards.domain.exposed.Card
 import com.api.v1.medical_appointments.domain.exposed.MedicalAppointment
 import com.api.v1.payments.dto.PaymentResponseDto
 import org.springframework.data.annotation.Id

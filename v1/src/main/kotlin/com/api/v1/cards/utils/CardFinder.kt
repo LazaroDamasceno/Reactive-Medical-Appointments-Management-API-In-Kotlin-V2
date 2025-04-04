@@ -1,6 +1,6 @@
 package com.api.v1.cards.utils
 
-import com.api.v1.cards.domain.Card
+import com.api.v1.cards.domain.exposed.Card
 import com.api.v1.cards.domain.CardRepository
 import com.api.v1.cards.exceptions.NonExistentCardException
 import kotlinx.coroutines.Dispatchers
