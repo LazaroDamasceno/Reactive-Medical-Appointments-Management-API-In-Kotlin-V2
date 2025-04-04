@@ -19,7 +19,7 @@ class MedicalAppointmentController(
     private val retrievalService: MedicalAppointmentRetrievalService
 ) {
 
-    @Operation(description = "Book a new medical appointment")
+    @Operation(summary = "Book a new medical appointment")
     @PostMapping("{licenseNumber}/{state}/{customerId}/{bookedAt}")
     suspend fun register(
         @PathVariable licenseNumber: String,
@@ -30,21 +30,21 @@ class MedicalAppointmentController(
         return registrationService.register(licenseNumber, state, customerId, bookedAt)
     }
 
-    @Operation(description = "Cancel a medical appointment")
-    @PostMapping("{customerId}/{medicalAppointmentId}/cancellation")
+    @Operation(summary = "Cancel a medical appointment")
+    @PatchMapping("{customerId}/{medicalAppointmentId}/cancellation")
     suspend fun cancel(@PathVariable customerId: String,
                        @PathVariable medicalAppointmentId: String
     ): ResponseEntity<Unit> {
         return managementService.cancel(customerId, medicalAppointmentId)
     }
 
-    @Operation(description = "Retrieval all medical appointments")
+    @Operation(summary = "Retrieval all medical appointments")
     @GetMapping
     suspend fun findAll(): ResponseEntity<Flow<MedicalAppointmentResponseDto>> {
         return retrievalService.findAll()
     }
 
-    @Operation(description = "Retrieval a medical appointment by customer and its id")
+    @Operation(summary = "Retrieval a medical appointment by customer and its id")
     @GetMapping("{customerId}/{medicalSlotId}")
     suspend fun findById(
         customerId: String,
@@ -53,7 +53,7 @@ class MedicalAppointmentController(
         return retrievalService.findById(customerId, medicalSlotId)
     }
 
-    @Operation(description = "Retrieval a medical appointment by its id")
+    @Operation(summary = "Retrieval a medical appointment by its id")
     @GetMapping("{medicalSlotId}")
     suspend fun findById(medicalSlotId: String): ResponseEntity<MedicalAppointmentResponseDto> {
         return retrievalService.findById(medicalSlotId)

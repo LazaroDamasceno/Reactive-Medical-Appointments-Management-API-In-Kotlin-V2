@@ -26,7 +26,7 @@ class DoctorController(
     }
 
     @Operation(summary = "Terminate a doctor")
-    @PostMapping("{licenseNumber}/{state}/cancellation")
+    @PatchMapping("{licenseNumber}/{state}/cancellation")
     suspend fun terminate(
         @PathVariable licenseNumber: String,
         @PathVariable state: String
@@ -35,7 +35,7 @@ class DoctorController(
     }
 
     @Operation(summary = "Rehire a doctor")
-    @PostMapping("{licenseNumber}/{state}/rehiring")
+    @PatchMapping("{licenseNumber}/{state}/rehiring")
     suspend fun rehire(
         @PathVariable licenseNumber: String,
         @PathVariable state: String

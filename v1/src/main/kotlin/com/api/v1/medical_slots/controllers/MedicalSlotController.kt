@@ -30,7 +30,7 @@ class MedicalSlotController(
     }
 
     @Operation(summary = "Cancel a medical slot")
-    @PostMapping("{licenseNumber}/{state}/{medicalSlotId}/cancellation")
+    @PatchMapping("{licenseNumber}/{state}/{medicalSlotId}/cancellation")
     suspend fun cancel(@PathVariable licenseNumber: String,
                        @PathVariable state: String,
                        @PathVariable medicalSlotId: String
@@ -39,7 +39,7 @@ class MedicalSlotController(
     }
 
     @Operation(summary = "Complete a medical slot")
-    @PostMapping("{licenseNumber}/{state}/{medicalSlotId}/completion")
+    @PatchMapping("{licenseNumber}/{state}/{medicalSlotId}/completion")
     suspend fun completed(@PathVariable licenseNumber: String,
                           @PathVariable state: String,
                           @PathVariable medicalSlotId: String
