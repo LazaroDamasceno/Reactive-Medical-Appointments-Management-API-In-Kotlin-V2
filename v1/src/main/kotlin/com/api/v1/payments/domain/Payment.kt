@@ -2,6 +2,7 @@ package com.api.v1.payments.domain
 
 import com.api.v1.cards.domain.Card
 import com.api.v1.medical_appointments.domain.exposed.MedicalAppointment
+import com.api.v1.payments.dto.PaymentResponseDto
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
@@ -25,5 +26,13 @@ data class Payment (
                 LocalDateTime.now()
             )
         }
+    }
+
+    fun toDto(): PaymentResponseDto {
+        return PaymentResponseDto(
+            id,
+            medicalAppointment.toDto(),
+            card.toDto()
+        )
     }
 }
