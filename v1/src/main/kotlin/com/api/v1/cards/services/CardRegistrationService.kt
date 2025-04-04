@@ -1,5 +1,6 @@
-package com.api.v1.cards
+package com.api.v1.cards.services
 
+import com.api.v1.cards.dtos.CardResponseDto
 import java.time.LocalDate
 
 interface CardRegistrationService {

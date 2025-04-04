@@ -1,4 +1,4 @@
-package com.api.v1.cards
+package com.api.v1.cards.domain
 
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 

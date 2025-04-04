@@ -1,5 +1,9 @@
-package com.api.v1.cards
+package com.api.v1.cards.services
 
+import com.api.v1.cards.domain.Card
+import com.api.v1.cards.domain.CardRepository
+import com.api.v1.cards.dtos.CardResponseDto
+import com.api.v1.cards.enums.CardType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service

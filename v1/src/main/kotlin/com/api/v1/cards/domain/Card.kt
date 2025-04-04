@@ -1,5 +1,7 @@
-package com.api.v1.cards
+package com.api.v1.cards.domain
 
+import com.api.v1.cards.dtos.CardResponseDto
+import com.api.v1.cards.enums.CardType
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDate
