@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 
 @Service
 class MedicalSlotManagementServiceImpl(
@@ -36,14 +37,15 @@ class MedicalSlotManagementServiceImpl(
         }
     }
 
-    override suspend fun completed(licenseNumber: String, state: String, medicalSlotId: String): ResponseEntity<Unit> {
+    override suspend fun completed(licenseNumber: String, state: String, medicalSlotId: String, price: Double): ResponseEntity<Unit> {
         return withContext(Dispatchers.IO) {
             val foundDoctor = doctorFinder.findByMedicalLicenseNumber(licenseNumber, state.uppercase())
             val foundMedicalSlot = medicalSlotFinder.findById(medicalSlotId)
             validate(foundDoctor, foundMedicalSlot)
             foundMedicalSlot.markAsCompleted()
             val medicalAppointment = foundMedicalSlot.medicalAppointment
-            medicalAppointment!!.markAsCompleted()
+            medicalAppointment!!.price = BigDecimal.valueOf(price)
+            medicalAppointment.markAsCompleted()
             val completedMedicalAppointment = medicalAppointmentUpdatingService.set(medicalAppointment)
             foundMedicalSlot.medicalAppointment = completedMedicalAppointment
             medicalSlotRepository.save(foundMedicalSlot)

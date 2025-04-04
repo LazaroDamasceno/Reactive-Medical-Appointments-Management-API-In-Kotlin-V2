@@ -30,16 +30,19 @@ class CardController(
         return registrationService.debitCard(cvc, dueDate)
     }
 
+    @Operation(summary = "Delete a card")
     @DeleteMapping("{id}")
     suspend fun delete(@PathVariable id: String): ResponseEntity<Unit> {
         return deletionService.delete(id)
     }
 
+    @Operation(summary = "Retrieve a card")
     @GetMapping
     suspend fun findAll(): ResponseEntity<Flow<CardResponseDto>> {
         return retrievalService.findAll()
     }
 
+    @Operation(summary = "Retrieve a card by its id")
     @GetMapping("{id}")
     suspend fun findById(@PathVariable id: String): ResponseEntity<CardResponseDto> {
         return retrievalService.findById(id)

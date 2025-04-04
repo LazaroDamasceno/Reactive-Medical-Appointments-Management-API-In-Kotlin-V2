@@ -42,9 +42,10 @@ class MedicalSlotController(
     @PatchMapping("{licenseNumber}/{state}/{medicalSlotId}/completion")
     suspend fun completed(@PathVariable licenseNumber: String,
                           @PathVariable state: String,
-                          @PathVariable medicalSlotId: String
+                          @PathVariable medicalSlotId: String,
+                          @PathVariable price: Double
     ): ResponseEntity<Unit> {
-        return managementService.completed(licenseNumber, state, medicalSlotId)
+        return managementService.completed(licenseNumber, state, medicalSlotId, price)
     }
 
     @Operation(summary = "Retrieve all medical slots")
