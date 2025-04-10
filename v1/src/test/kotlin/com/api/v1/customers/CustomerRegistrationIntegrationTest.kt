@@ -71,4 +71,47 @@ class CustomerRegistrationIntegrationTest {
 		)
 	)
 
+	@Test
+	@Order(2)
+	fun testUnsuccessfulRegistration_Duplicated_Ssn() {
+		webTestClient
+			.post()
+			.uri("api/v1/customers")
+			.bodyValue(registrationDtoWithDuplicatedSsn)
+			.exchange()
+			.expectStatus()
+			.is4xxClientError
+	}
+
+	val registrationDtoWithDuplicatedEmail = CustomerRegistrationDto(
+		PersonRegistrationDto(
+			"Leo",
+			"",
+			"Santos",
+			LocalDate.of(2000,12,12),
+			"987654321",
+			"leosantos@gmail.com",
+			Gender.CIS_MALE,
+			"1234567890"
+		),
+		Address(
+			States.CA,
+			"LA",
+			"Downtown",
+			"90012"
+		)
+	)
+
+	@Test
+	@Order(3)
+	fun testUnsuccessfulRegistration_Duplicated_Email() {
+		webTestClient
+			.post()
+			.uri("api/v1/customers")
+			.bodyValue(registrationDtoWithDuplicatedEmail)
+			.exchange()
+			.expectStatus()
+			.is4xxClientError
+	}
+
 }

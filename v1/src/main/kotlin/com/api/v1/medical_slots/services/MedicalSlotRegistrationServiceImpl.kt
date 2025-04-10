@@ -1,7 +1,7 @@
 package com.api.v1.medical_slots.services
 
-import com.api.v1.common.PastBookingDateTimeChecker
-import com.api.v1.common.PastBookingDateTimeException
+import com.api.v1.common.PastBookingDateChecker
+import com.api.v1.common.PastBookingDateException
 import com.api.v1.common.UnavailableBookingDateTimeException
 import com.api.v1.doctors.domain.exposed.Doctor
 import com.api.v1.doctors.utils.DoctorFinder
@@ -43,8 +43,8 @@ class MedicalSlotRegistrationServiceImpl(
             throw UnavailableBookingDateTimeException(availableAt)
         }
 
-        if (PastBookingDateTimeChecker.isBeforeToday(availableAt.toLocalDate())) {
-            throw PastBookingDateTimeException()
+        if (PastBookingDateChecker.isBeforeToday(availableAt.toLocalDate())) {
+            throw PastBookingDateException()
         }
     }
 }

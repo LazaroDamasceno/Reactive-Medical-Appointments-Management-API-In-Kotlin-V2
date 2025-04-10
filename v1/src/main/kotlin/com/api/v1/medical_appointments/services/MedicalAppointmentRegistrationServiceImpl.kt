@@ -1,7 +1,7 @@
 package com.api.v1.medical_appointments.services
 
-import com.api.v1.common.PastBookingDateTimeChecker
-import com.api.v1.common.PastBookingDateTimeException
+import com.api.v1.common.PastBookingDateChecker
+import com.api.v1.common.PastBookingDateException
 import com.api.v1.common.UnavailableBookingDateTimeException
 import com.api.v1.customers.domain.exposed.Customer
 import com.api.v1.customers.utils.CustomerFinder
@@ -48,8 +48,8 @@ class MedicalAppointmentRegistrationServiceImpl(
             throw UnavailableBookingDateTimeException(bookedAt)
         }
 
-        if (PastBookingDateTimeChecker.isBeforeToday(bookedAt.toLocalDate())) {
-            throw PastBookingDateTimeException()
+        if (PastBookingDateChecker.isBeforeToday(bookedAt.toLocalDate())) {
+            throw PastBookingDateException()
         }
 
         if (doctor.person.id == customer.id) {
