@@ -33,7 +33,6 @@ class MedicalAppointmentPaymentServiceImpl(
            val savedPayment = paymentRepository.save(payment)
            val dto = savedPayment.toDto()
            ResponseEntity.status(HttpStatus.CREATED).body(dto)
-           TODO()
        }
     }
 
