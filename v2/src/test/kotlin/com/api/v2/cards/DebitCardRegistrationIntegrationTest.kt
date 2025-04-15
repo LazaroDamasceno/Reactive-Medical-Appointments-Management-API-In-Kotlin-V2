@@ -18,7 +18,7 @@ class DebitCardRegistrationIntegrationTest {
     fun testSuccessful() {
         webTestClient
             .post()
-            .uri("api/v1/cards/debit-card")
+            .uri("api/v2/cards/debit-card/369/2025-12-12")
             .exchange()
             .expectStatus()
             .is2xxSuccessful
