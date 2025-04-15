@@ -15,9 +15,9 @@ class MedicalSlot(
 ) {
 
     @BsonId
-    var id: String = UUID.randomUUID().toString()
+    val id: String = UUID.randomUUID().toString()
     var medicalAppointment: MedicalAppointment? = null
-    var createdAt: LocalDateTime = LocalDateTime.now()
+    val createdAt: LocalDateTime = LocalDateTime.now()
     var canceledAt: LocalDateTime? = null
     var completedAt: LocalDateTime? = null
 

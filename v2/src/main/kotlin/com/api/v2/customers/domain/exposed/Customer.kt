@@ -16,8 +16,8 @@ class Customer(
 ) {
 
     @BsonId
-    var id: String = UUID.randomUUID().toString()
-    var createdAt: LocalDateTime = LocalDateTime.now()
+    val id: String = UUID.randomUUID().toString()
+    val createdAt: LocalDateTime = LocalDateTime.now()
 
     companion object {
         fun of(person: Person, address: Address): Customer {

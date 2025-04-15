@@ -14,15 +14,15 @@ class Person(
     var middleName: String?,
     var lastName: String,
     var birthDate: LocalDate,
-    var ssn: String,
+    val ssn: String,
     var email: String,
     var gender: Gender,
     var phoneNumber: String
 ) {
 
     @BsonId
-    var id: String = UUID.randomUUID().toString()
-    var createdAt: LocalDateTime = LocalDateTime.now()
+    val id: String = UUID.randomUUID().toString()
+    val createdAt: LocalDateTime = LocalDateTime.now()
 
     companion object {
         fun of(registrationDto: PersonRegistrationDto): Person {

@@ -16,9 +16,8 @@ class Doctor(
 ) {
 
     @BsonId
-    var id: String = UUID.randomUUID().toString()
-
-    var createdAt: LocalDateTime = LocalDateTime.now()
+    val id: String = UUID.randomUUID().toString()
+    val createdAt: LocalDateTime = LocalDateTime.now()
     var terminatedAt: LocalDateTime? = null
 
     companion object {
